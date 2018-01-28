@@ -16,6 +16,8 @@
     <!--允许读取手机状态 用于创建BmobInstallation-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,6 +36,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.activity.LoginActivity"/>
     </application>
 
 </manifest>

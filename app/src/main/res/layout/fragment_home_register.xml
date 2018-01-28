@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <WebView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/btn_back_register"
+            android:text="重新加载注册页面"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="6dp"/>
+        <!--<info.hoang8f.widget.FButton-->
+            <!--android:id="@+id/btn_back_login"-->
+            <!--android:text="登陆页面"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_margin="6dp"/>-->
+        <!--<info.hoang8f.widget.FButton-->
+            <!--android:id="@+id/btn_back_bind"-->
+            <!--android:text="绑定手机"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_margin="6dp"/>-->
+    </LinearLayout>
+
+    <com.tencent.smtt.sdk.WebView
         android:id="@+id/wv_register"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
-</ScrollView>
+        android:layout_height="match_parent"></com.tencent.smtt.sdk.WebView>
+
+</LinearLayout>

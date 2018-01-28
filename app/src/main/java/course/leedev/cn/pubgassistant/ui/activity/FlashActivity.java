@@ -1,6 +1,7 @@
 package course.leedev.cn.pubgassistant.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +31,9 @@ public class FlashActivity extends BaseActivity {
 
     private int mTime = 3;
     private boolean mIsCancle;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected int getLayoutId() {
@@ -73,11 +77,26 @@ public class FlashActivity extends BaseActivity {
                     @Override
                     public void onComplete() {
                         if (!mIsCancle) {
-                            startActivity(new Intent(FlashActivity.this, MainActivity.class));
-                            finish();
+                            judgeLogin();
                         }
                     }
                 });
+    }
+
+    /**
+     * 登陆判断
+     */
+    private void judgeLogin() {
+        sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        if (sharedPreferences.getBoolean("logined", false)) {
+            startActivity(new Intent(FlashActivity.this, MainActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(FlashActivity.this, LoginActivity.class));
+            finish();
+        }
     }
 
     @OnClick(R.id.ll_skip)
@@ -85,8 +104,7 @@ public class FlashActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.ll_skip:
                 mIsCancle = true;
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                judgeLogin();
                 break;
         }
     }

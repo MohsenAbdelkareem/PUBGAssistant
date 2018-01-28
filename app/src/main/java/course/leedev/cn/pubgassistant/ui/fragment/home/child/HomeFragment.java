@@ -1,6 +1,8 @@
 package course.leedev.cn.pubgassistant.ui.fragment.home.child;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +26,7 @@ import course.leedev.cn.pubgassistant.base.BasePresenter;
 import course.leedev.cn.pubgassistant.base.fragment.BaseMVPCompatFragment;
 import course.leedev.cn.pubgassistant.contract.home.HomeMainContract;
 import course.leedev.cn.pubgassistant.presenter.home.HomeMainPresenter;
+import course.leedev.cn.pubgassistant.ui.activity.LoginActivity;
 import course.leedev.cn.pubgassistant.ui.fragment.home.child.tabs.AssistantFragment;
 import course.leedev.cn.pubgassistant.ui.fragment.home.child.tabs.RegisterFragment;
 import course.leedev.cn.pubgassistant.ui.fragment.home.child.tabs.RequestQRCodeFragment;
@@ -51,6 +54,8 @@ public class HomeFragment extends BaseMVPCompatFragment<HomeMainContract.HomeMai
 
     protected OnOpenDrawerLayoutListener onOpenDrawerLayoutListener;
     private List<Fragment> fragments;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -81,12 +86,16 @@ public class HomeFragment extends BaseMVPCompatFragment<HomeMainContract.HomeMai
     }
 
     @Override
-    public int getLayoutId() {
+     public int getLayoutId() {
         return R.layout.fragment_home_;
     }
 
     @Override
     protected void initUI(View view, Bundle savedInstanceState) {
+
+        sharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         toolbar.setTitle("首页");
         toolbar.setNavigationIcon(R.mipmap.ic_drawer_home);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -110,7 +119,7 @@ public class HomeFragment extends BaseMVPCompatFragment<HomeMainContract.HomeMai
         fabRecharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 充值按钮事件
+
             }
         });
         toolbar.inflateMenu(R.menu.toolbar_menu);
@@ -119,7 +128,9 @@ public class HomeFragment extends BaseMVPCompatFragment<HomeMainContract.HomeMai
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.exit_login:
-                        // TODO: 退出登陆
+                        editor.putBoolean("logined", false);
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        getActivity().finish();
                         break;
                 }
                 return false;
@@ -199,6 +210,8 @@ public class HomeFragment extends BaseMVPCompatFragment<HomeMainContract.HomeMai
             }
         }
         vpFragment.setAdapter(new FragmentAdapter(getChildFragmentManager(), fragments));
+        vpFragment.setCurrentItem(0);
+        vpFragment.setOffscreenPageLimit(2);
         tlTabs.setupWithViewPager(vpFragment);
         tlTabs.setVerticalScrollbarPosition(0);
         for (int i = 0; i < tabs.length; i++) {
